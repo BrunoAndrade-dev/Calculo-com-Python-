@@ -10,13 +10,13 @@ def transformada_Fourier(sinal) :
         np.ndarray: O array de resultados complexos no domínio da frequência (X[k]).
     """
     N = len(sinal) # Recebe o tamanho do sinal de entrada
-    X = np.zeros(N, dtype=complex)  # Inicializa o array de saída com zeros (tipo complexo)     
-    for x in range (N):
-        sum_complexo = 0.0 + 0.0j  # Inicializa a soma complexa para cada k
+    X = np.zeros(N, dtype=np.complex128)      
+    for k in range (N):
+        soma_complexo = complex(0.0 , 0.0)  
         for n in range (N) :
-            exponecial = np.exp(-2j *np * x * n / N) # Calcula o termo exponencial da DFT
-            sum_complexo += sinal[n] * exponecial  # Acumula a soma complexa
-        X[x] = sum_complexo  # Armazena o resultado da soma no array de saída     
+            exponecial = np.exp(-1j *2* np.pi *  k * n / N) 
+            soma_complexo += np.float64(sinal[n]) * exponecial  
+        X[k] = soma_complexo  
     return X 
 
 def magnitude(x) :

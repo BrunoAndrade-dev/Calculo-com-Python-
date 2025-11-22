@@ -1,6 +1,7 @@
 import scipy.io.wavfile as wav 
 import numpy as np 
 import os 
+import matplotlib.pyplot as plt
 
 def read_wav_file(file_path):
     """
@@ -26,7 +27,7 @@ def read_wav_file(file_path):
             audio_data = data[: , 0]#Pegando apenas o canal esquerdo
         audio_data = audio_data.astype(np.float64) #Normalizando audio para nao ter conflito de tipos
         
-        return fs , data 
+        return fs , audio_data 
     
     except FileExistsError as e :
         print ('Erro ao ler o arquivo .wav : ', e)
@@ -34,4 +35,40 @@ def read_wav_file(file_path):
     except Exception as e :
         print ('Erro inesperado ao ler o arquivo .wav : ', e)
         return None , None
+    
+def vizualizar (fs , audio_data , magnitude=False):  
+    """
+    Função para visualizar o sinal de áudio e sua magnitude por meior de gráfico 
+
+    """
+    N = len(audio_data)
+    time = np.arange(0 , N) / fs
+    freq_axis = np.arange(0, N )* fs / N 
+    metade_N = N// 2 
+    freq_axis = freq_axis[:metade_N]
+    spectrum_plot = magnitude[:metade_N]
+    plt.figure(figsize =(14,6))
+
+    #Primeiro subplot 
+    plt.subplot(2,2,1)
+    plt.plot(time, audio_data)
+    plt.title('Sinal de Áudio no Domínio do Tempo')
+    plt.xlabel('Tempo (s)')
+    plt.ylabel('Amplitude')
+    plt.grid(True)
+
+    #Segundo subplot
+    plt.subplot(2,2,2)
+    plt.plot(freq_axis, spectrum_plot)
+    plt.title('Espectro de Frequência')
+    plt.xlabel('Frequência (Hz)')
+    plt.ylabel('Magnitude')
+    plt.grid(True)
+    plt.tight_layout()
+    try :
+        plt.savefig('data/saida/visualizacao_audio.png')
+        print ('Gráfico salvo em data/saida/visualizacao_audio.png')
+    except Exception as e :
+        print ('Erro ao salvar o gráfico : ', e)    
+    plt.show()
     
