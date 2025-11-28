@@ -1,5 +1,5 @@
 import streamlit as st
-from calcular_newton import calcular_newton
+from src.calcular_newton import calcular_newton
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
