@@ -1,7 +1,4 @@
 import streamlit as st
-import sys
-import os 
-sys.path.append( os.path.abspath( os.path.join( os.path.dirname(__file__) , '..' , 'src' ) ) )
 from calcular_newton import calcular_newton
 import sympy as sp
 import numpy as np
